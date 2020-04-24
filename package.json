@@ -1,0 +1,24 @@
+{
+  "name": "redbot",
+  "version": "1.0.2",
+  "description": "A bot for the RedDashGames discord server",
+  "main": "bot.js",
+  "author": "BreMea",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BreMea/redbot.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BreMea/redbot/issues"
+  },
+  "homepage": "https://github.com/BreMea/redbot#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "mysql": "^2.18.1",
+    "scss": "^0.2.4",
+    "socketio": "^1.0.0"
+  }
+}
