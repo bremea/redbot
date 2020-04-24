@@ -17,7 +17,7 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 
 client.once('ready', () => {
 	console.log('RedBot Ready!');
-	client.user.setActivity(' for !help | v1.0.2 | github.com/BreMea/redbot', { type: 'WATCHING' });
+	client.user.setActivity(' for !help | v1.0.3 | github.com/BreMea/redbot', { type: 'WATCHING' });
 });
 
 var j = schedule.scheduleJob('1 * * * *', function() {
@@ -58,9 +58,9 @@ client.on('message', message => {
 				});
 			}
 		}
-		if (msg.includes('69') && message.channel.id != '702941579559567481') {
+		if (msg.includes('69') && message.channel.id === '702327056825843822') {
 			message.channel.send("nice");
-		} else if (msg.includes('420') && message.channel.id != '702941579559567481') {
+		} else if (msg.includes('420') && message.channel.id === '702327056825843822') {
 			message.channel.send("nice");
 		}
 		for (i = 0; i < words.fake_blacklist.length; i++) {
