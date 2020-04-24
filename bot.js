@@ -10,17 +10,14 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 var commands = '';
-var users = '';
 var words = '';
 var schedule = require('node-schedule');
-var usrc = {};
-var count = '';
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 client.once('ready', () => {
 	console.log('RedBot Ready!');
-	client.user.setActivity(' for !help | Made by @BreMea | v1.0.2', { type: 'WATCHING' });
+	client.user.setActivity(' for !help | v1.0.2 | github.com/BreMea/redbot', { type: 'WATCHING' });
 });
 
 var j = schedule.scheduleJob('1 * * * *', function() {
@@ -38,10 +35,6 @@ client.on('message', message => {
 		commands = JSON.parse(rawdata);
 		rawdata = fs.readFileSync('words.json');
 		words = JSON.parse(rawdata);
-		rawdata = fs.readFileSync('users.json');
-		users = JSON.parse(rawdata);
-		rawdata = fs.readFileSync('count.json');
-		count = JSON.parse(rawdata);
 		for (i = 0; i < words.blacklist.length; i++) {
 			if (msg.includes(words.blacklist[i])) {
 				message.delete()
