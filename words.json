@@ -1,0 +1,5 @@
+{
+    "blacklist": ["nigger", "nigg", "niggah", "nigga", "niger", "n i g g e r", "niggger", "testword9"],
+    "fake_blacklist": ["bremea sucks", "heck"],
+    "ok": ["shit", "fuck", "bitch", "cunt"]
+}
