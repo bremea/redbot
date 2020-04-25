@@ -104,6 +104,10 @@ client.on('message', message => {
 						message.author.send('I did not find any warnings for you. (This normally means you have not recived a warning at all on the server.)');
 					}
 				});
+			} else if (msg === '!positive' || msg === '!affirmations') {
+				rawdata = fs.readFileSync('https://www.affirmations.dev/');
+				var quote = JSON.parse(rawdata);
+				message.channel.send(quote.affirmation);
 			} else {
 				message.channel.send('**Command not found!** Send **!help** for a list of commands.');
 			}
