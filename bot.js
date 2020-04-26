@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 var mysql = require('mysql');
+const ytdl = require('ytdl-core');
 var rawdata = fs.readFileSync('auth.json');
 var auth = JSON.parse(rawdata);
 var connection = mysql.createConnection({
@@ -9,9 +10,13 @@ var connection = mysql.createConnection({
   password: auth.password
 });
 connection.connect();
+var dispatcher;
 var commands = '';
+var ccc;
+var channel9;
 var words = '';
 var schedule = require('node-schedule');
+//var YoutubeMp3Downloader = require("youtube-mp3-downloader");
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
@@ -26,7 +31,28 @@ var j = schedule.scheduleJob('1 * * * *', function() {
 	});
 });
 
+/*var YD = new YoutubeMp3Downloader({
+    "ffmpegPath": "ffmpeg",        // Where is the FFmpeg binary located?
+    "outputPath": "s",    // Where should the downloaded and encoded files be stored?
+    "youtubeVideoQuality": "highest",       // What video quality should be used?
+    "queueParallelism": 2,                  // How many parallel downloads/encodes should be started?
+    "progressTimeout": 2000                 // How long should be the interval of the progress reports
+});*/
+
 client.login(auth.key);
+
+client.on('guildMemberAdd', member => {
+	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
+	if (!channel) return;
+	channel.send(`Yay, ${member} is here! Welcome to the server! Read through the <#702216016842719232> and then come chat with us in <#690336115684802562>! :D`);
+});
+
+client.on('guildMemberRemove', member => {
+	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
+	if (!channel) return;
+	channel.send(`Aww, ${member} left. See ya!`);
+});
+  
 
 client.on('message', message => {
 	if(message.author.id != '702222347738022002') {
@@ -35,6 +61,7 @@ client.on('message', message => {
 		commands = JSON.parse(rawdata);
 		rawdata = fs.readFileSync('words.json');
 		words = JSON.parse(rawdata);
+		channel9 = message.channel;
 		for (i = 0; i < words.blacklist.length; i++) {
 			if (msg.includes(words.blacklist[i])) {
 				message.delete()
@@ -108,6 +135,10 @@ client.on('message', message => {
 				rawdata = fs.readFileSync('https://www.affirmations.dev/');
 				var quote = JSON.parse(rawdata);
 				message.channel.send(quote.affirmation);
+			} else if (msg.substring(0, 6) === '!play ' && message.channel.id == '703449804193267792') {
+				message.channel.send("I'll download that song now, and play it once the download is finished. \n **Progress: 0%**");
+				var u2 = message.content.split(' ');
+				//YD.download(u2[1]);
 			} else {
 				message.channel.send('**Command not found!** Send **!help** for a list of commands.');
 			}
@@ -117,7 +148,47 @@ client.on('message', message => {
 			message.channel.send('Nice to meet you ' + message.content.slice(4) + ", I'm RedBot.");
 		} else if (msg.substring(0, 2) == "im" && message.channel.id === '702327056825843822') {
 			message.channel.send('Nice to meet you ' + message.content.slice(3) + ", I'm RedBot.");
+		} else if (message.content == "I'll download that song now, and play it once the download is finished. \n **Progress: 0%**" && message.author.id == "702222347738022002") {
+			channel9 = message;
 		}
+	}
+});
+
+/*YD.on("finished", function(err, data) {
+	eval("dispatcher = ccc.play('s/" + data.videoTitle + ".mp3');");
+	channel9.edit('Download done! Playing **' + data.videoTitle + '**');
+	dispatcher.on('start', () => {
+		console.log('playing a song');
+	});
+	
+	dispatcher.on('finish', () => {
+		console.log('song done');
+		channel9.edit('All done playing **' + data.videoTitle + '**. Use `!u [youtube id]` to play another song.');
+	});
+	
+	// Always remember to handle errors appropriately!
+	dispatcher.on('error', console.error);
+});
+ 
+YD.on("error", function(error) {
+    channel9.edit("Error:" + error);
+});
+ 
+YD.on("progress", function(progress) {
+	channel9.edit("I'll download that song now, and play it once the download is finished. \n **Progress: " + Math.round(progress.progress.percentage) + "%**");
+});*/
+
+client.on('voiceStateUpdate', async (oldState, newState) => {
+	if (newState.channel == '703449230932443167') {
+		newState.guild.members.fetch(newState.id)
+		.then(member => member.roles.add('703449651164086283'))
+		.catch(console.error);
+		ccc = await message.member.voice.channel.join();
+	} else {
+		newState.guild.members.fetch(newState.id)
+		.then(member => member.roles.remove('703449651164086283'))
+		.catch(console.error);
+		ccc = await message.member.voice.channel.leave();
 	}
 });
 
