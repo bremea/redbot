@@ -44,13 +44,13 @@ client.login(auth.key);
 client.on('guildMemberAdd', member => {
 	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
 	if (!channel) return;
-	channel.send(`Yay, ${member} is here! Welcome to the server! Read through the <#702216016842719232> and then come chat with us in <#690336115684802562>! :D`);
+	channel.send(`**Yay, ${member} is here!** Make sure to read the <#697283353031868446>, claim your roles in <#702216016842719232> and then come chat with us in <#690336115684802562>! :D`);
 });
 
 client.on('guildMemberRemove', member => {
 	const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
 	if (!channel) return;
-	channel.send(`Aww, ${member} left. See ya!`);
+	channel.send(`**Aww, ${member} left.** See ya later!`);
 });
   
 
