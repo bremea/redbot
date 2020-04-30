@@ -73,13 +73,13 @@ client.on('message', message => {
 					if (results.length == 0) {
 						connection.query("INSERT INTO redbot.users (`did`, `warns`, `kicks`, `bans`) VALUES ('" + message.author.id + "', 1, 0, 0)", function (error, results, fields) {
 							if (error) throw error;
-							client.channels.cache.get("702941579559567481").send("**MED PRIORITY** - Gave 1 warning to <@" + message.author.id + "> (" + message.author.id + ") for cursing. *Message:* \n " + message.content);
+							client.channels.cache.get("702941579559567481").send("<@&690336930201862176> Gave 1 warning to <@" + message.author.id + "> (" + message.author.id + ") for cursing. *Message:* \n||" + message.content + "||");
 						});
 					} else {
 						connection.query("UPDATE redbot.users SET warns = 1 WHERE did = " + message.author.id, function (error, results, fields) {
 							if (error) throw error;
 							const channel = client.channels.cache.get('702941579559567481');
-							channel.send("<@&690336930201862176> **MED PRIORITY** - Gave 1 warning to <@" + message.author.id + "> for cursing. *Message:* \n" + message.content);
+							channel.send("<@&690336930201862176> Gave 1 warning to <@" + message.author.id + "> for cursing. *Message:* \n||" + message.content + "||");
 						});
 					}
 				});
